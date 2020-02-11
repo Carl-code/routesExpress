@@ -2,6 +2,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 const koders = [
   {
     name: 'Carlos',
@@ -30,12 +32,18 @@ app.get('/koders', (request, response) => {
 })
 
 app.post('/koders', (request, response) => {
-    const newKoder = {
-        name: 'Monse',
-        age: 23,
-        generation: 4
-    }
-    koders.push(newKoder)
+    //Recibimos los datos, deconstruimos el objeto
+    const {
+        name,
+        age,
+        generation
+    } = request.body
+
+    koders.push({
+        name,
+        age,
+        generation
+    })
 
     response.json({
         message: 'New Koder added',
@@ -44,6 +52,10 @@ app.post('/koders', (request, response) => {
         }
     })
 })
+
+app.delete('/koders/:index', (request, response) => {
+    const index = request.params
+} )
 
 app.listen(5000, () => {
     console.log('Koders API Listening');
